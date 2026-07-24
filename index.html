@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>DNA Transcription</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/style.css">
+  </head>
+
+  <body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNA Transcription Lab 🧬</title>
+    <style>
+        :root {
+            --bg-color: #0e1117;
+            --sidebar-bg: #161b22;
+            --text-color: #c9d1d9;
+            --text-bright: #f0f6fc;
+            --border-color: #30363d;
+            --accent-color: #238636;
+            --accent-hover: #2ea043;
+            --card-bg: #1c2128;
+            --blue-link: #58a6ff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── Sidebar Navigation ── */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            flex-shrink: 0;
+            user-select: none;
+        }
+
+        .sidebar h3 {
+            color: var(--text-bright);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .nav-option:hover {
+            background-color: #21262d;
+            color: var(--text-bright);
+        }
+
+        .nav-option.active {
+            background-color: #1f6feb;
+            color: white;
+        }
+
+        /* ── Main Layout ── */
+        .main-content {
+            flex-grow: 1;
+            padding: 2.5rem;
+            overflow-y: auto;
+            height: 100vh;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        h1 {
+            color: var(--text-bright);
+            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        h2, h3 {
+            color: var(--text-bright);
+            margin-bottom: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* ── Lab Panel Design ── */
+        .lab-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2.5rem;
+        }
+
+        .input-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        /* Interactive Buttons */
+        button {
+            background-color: transparent;
+            color: var(--blue-link);
+            border: 1px solid var(--border-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            align-self: flex-start;
+            transition: background 0.2s, border-color 0.2s;
+            user-select: none;
+        }
+
+        button:hover {
+            background-color: #21262d;
+            border-color: #8b949e;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            background-color: var(--bg-color);
+            color: var(--text-bright);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.75rem;
+            font-family: monospace;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #58a6ff;
+        }
+
+        /* Metrics Display */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .metric-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: #8b949e;
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-value {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-bright);
+        }
+
+        /* Results Display Column */
+        .results-panel {
+            border-left: 1px solid var(--border-color);
+            padding-left: 2rem;
+        }
+
+        .arrow-divider {
+            margin: 1.5rem 0 1rem 0;
+            font-weight: bold;
+            color: #8b949e;
+        }
+
+        .sequence-container {
+            line-height: 2.4;
+            margin-bottom: 0.5rem;
+            word-break: break-all;
+        }
+
+        code {
+            display: block;
+            background-color: #161b22;
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.95rem;
+            color: #ff7b72;
+            margin-bottom: 1.5rem;
+            word-break: break-all;
+        }
+
+        /* ── Custom Data Tables ── */
+        .table-wrapper {
+            max-height: 600px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            background-color: var(--card-bg);
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #161b22;
+            color: var(--text-bright);
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        tr:hover {
+            background-color: #21262d;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-bright);
+            border-radius: 6px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #58a6ff;
+        }
+
+        /* Banners */
+        .info-banner {
+            background-color: rgba(56, 139, 253, 0.1);
+            border: 1px solid rgba(56, 139, 253, 0.3);
+            color: #58a6ff;
+            padding: 1rem;
+            border-radius: 6px;
+        }
+
+        .warning-banner {
+            background-color: rgba(210, 153, 34, 0.1);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+            color: #d29922;
+            padding: 1rem;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── SIDEBAR NAVIGATION ── -->
+    <div class="sidebar">
+        <div>
+            <h3>Navigate</h3>
+            <div id="btn-Laboratory" class="nav-option active" onclick="switchPage('Laboratory')">🧬 Laboratory</div>
+            <div id="btn-Learn" class="nav-option" onclick="switchPage('Learn')"> Learn</div>
+            <div id="btn-CodonTable" class="nav-option" onclick="switchPage('CODON_TABLE')"> Codon Table</div>
+        </div>
+    </div>
+
+    <!-- ── MAIN CONTENT LAYER ── -->
+    <div class="main-content">
+
+        <!-- 🧪 LABORATORY PAGE -->
+        <div id="page-Laboratory" class="page active">
+            <h1>Transcription Laboratory</h1>
+            <div class="lab-layout">
+                
+                <div class="input-panel">
+                    <h3>DNA Sequence</h3>
+                    <button id="rand-btn" onclick="generateRandomDNA()">Generate Random Sequence</button>
+                    <textarea id="dna-textarea" placeholder="Template strand (A, T, C, G only)">ATGCGTACGTCGATCGATCG</textarea>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-label">Length</div>
+                            <div class="metric-value" id="metric-length">0 bp</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">GC Content</div>
+                            <div class="metric-value" id="metric-gc">0.0%</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Codons</div>
+                            <div class="metric-value" id="metric-codons">0</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">A/T/G/C</div>
+                            <div class="metric-value" id="metric-counts" style="font-size: 1.1rem; padding-top: 0.3rem;">0/0/0/0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-panel" id="results-panel">
+                    <!-- Controlled entirely via JavaScript core execution -->
+                </div>
+            </div>
+        </div>
+
+        <!--  LEARN PAGE -->
+        <div id="page-Learn" class="page">
+            <h1>The Central Dogma</h1>
+            <div class="info-banner" style="margin-bottom: 2rem;">
+                The molecular biological framework tracking information flow from template blueprints to physical mechanics.
+            </div>
+<h2 style="color: green;"> DNA (Deoxyribonucleic Acid</h2>
+DNA is the permanent storage for genetic information. It exists as a double helix—two complementary strands woven together.
+<p>
+   <div style="background-color: #0b0f19; padding: 20px; font-family: sans-serif; color: #e2e8f0; font-size: 16px;">
+    
+    <!-- Row A -->
+    <div style="display: flex; align-items: center; margin-bottom: 16px;">
+        <span style="display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background-color: rgba(239, 68, 68, 0.15); color: #ef4444; font-weight: bold; font-size: 13px; margin-right: 12px;">A</span>
+        <span><strong>Adenine</strong> pairs with Thymine</span>
+    </div>
+
+    <!-- Row T -->
+    <div style="display: flex; align-items: center; margin-bottom: 16px;">
+        <span style="display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background-color: rgba(59, 130, 246, 0.15); color: #3b82f6; font-weight: bold; font-size: 13px; margin-right: 12px;">T</span>
+        <span><strong>Thymine</strong> pairs with Adenine</span>
+    </div>
+
+    <!-- Row G -->
+    <div style="display: flex; align-items: center; margin-bottom: 16px;">
+        <span style="display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background-color: rgba(34, 197, 94, 0.15); color: #22c55e; font-weight: bold; font-size: 13px; margin-right: 12px;">G</span>
+        <span><strong>Guanine</strong> pairs with Cytosine</span>
+    </div>
+
+    <!-- Row C -->
+    <div style="display: flex; align-items: center;">
+        <span style="display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background-color: rgba(168, 85, 247, 0.15); color: #a855f7; font-weight: bold; font-size: 13px; margin-right: 12px;">C</span>
+        <span><strong>Cytosine</strong> pairs with Guanine</span>
+    </div>
+
+</div>
+          
+ <p><strong>Step 2 : The Copy</strong></p>
+   <h2 style="color: green;">Transcription</h2>
+
+<p>DNA cannot leave the nucleus. Instead, an enzyme called RNA Polymerase unzips the DNA and creates a working copy called messenger RNA (mRNA).</p> <br>
+<div style="backroundcolor: #071518; border: 1px solid #0d9488; border-radius: 16px; padding: 20px; font-family: sans-serif; max-width: 550px;">
+ <h3 style="color: blue; margin-top: 0; margin-bottom: 12px; font-size: 18px; font-weight: bold;">The Uracil Rule</h3>
+<p style="margin: 0; line-height: 1.6; font-size: 15px;">RNA is similar to DNA, but it uses Uracil (U) instead of Thymine (T). When RNA Polymerase reads an 'A' on the DNA template, it places a 'U' in the mRNA strand.</p>
+  </div>
+   <br>       
+<p><strong>Step 3 : The Assembly</strong> </p>
+<p><h2 style="color: green;">Translation</h2></p>
+The mRNA travels to a ribosome, the cellular factory. The ribosome reads the mRNA sequence three letters at a time.
+
+These three-letter words are called Codons. Each codon corresponds to exactly one amino acid. As the ribosome reads the codons, it strings the amino acids together into a polypeptide chain—a protein.
+            </div>
+            <div style="line-height: 1.8; display: flex; flex-direction: column; gap: 1.5rem;">
+                <div>
+                  
+<!-- 📊 CODON DICTIONARY DATA MATRIX PAGE -->
+    <div id="page-CodonTable" class="page">
+        <h1>Standard Genetic Code</h1>
+        <input type="text" id="codon-search" class="search-input" placeholder="Search codon or amino acid shortcut..." oninput="filterCodonTable()">
+        
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Codon</th>
+                        <th>Amino Acid</th>
+                        <th>Full Structural Name</th>
+                    </tr>
+                </thead>
+                <tbody id="codon-table-body">
+                    <!-- Instantiated dynamically on runtime initialization -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+    <script src="/script.js"></script>
+  </body>
+
+</html>
