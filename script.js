@@ -150,13 +150,13 @@ function runGeneticPipeline() {
         <div class="sequence-container">${renderVisualSequenceBlocks(cleanDNAChain)}</div>
         <code>${cleanDNAChain}</code>
 
-        <div class="arrow-divider">⬇️ Transcription</div>
+        <div class="arrow-divider"> Transcription</div>
 
         <h3>Messenger RNA (5' → 3')</h3>
         <div class="sequence-container">${renderVisualSequenceBlocks(mrnaResult)}</div>
         <code>${mrnaResult}</code>
 
-        <div class="arrow-divider">⬇️ Translation</div>
+        <div class="arrow-divider"> Translation</div>
 
         <h3>Polypeptide Chain</h3>
     `;
