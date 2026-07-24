@@ -387,27 +387,44 @@ These three-letter words are called Codons. Each codon corresponds to exactly on
                 <div>
                   
 <!-- 📊 CODON DICTIONARY DATA MATRIX PAGE -->
-    <div id="page-CodonTable" class="page">
-        <h1>Standard Genetic Code</h1>
-        <input type="text" id="codon-search" class="search-input" placeholder="Search codon or amino acid shortcut..." oninput="filterCodonTable()">
-        
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Codon</th>
-                        <th>Amino Acid</th>
-                        <th>Full Structural Name</th>
-                    </tr>
-                </thead>
-                <tbody id="codon-table-body">
-                    <!-- Instantiated dynamically on runtime initialization -->
-                </tbody>
-            </table>
+    <div id="page-CODON_TABLE" class="page">
+            <h1>Codon Reference Matrix</h1>
+            <input type="text" id="codon-search" class="search-input" placeholder="Search by Codon or Amino Acid name..." oninput="filterCodonGridTable()">
+            
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Codon (mRNA)</th>
+                            <th>Abbreviation</th>
+                            <th>Full Structural Name</th>
+                        </tr>
+                    </thead>
+                    <!-- The JavaScript populates rows inside this container -->
+                    <tbody id="codon-table-body"></tbody>
+                </table>
+            </div>
         </div>
-    </div>
-  </div>
-    <script src="script.js"></script>
-  </body>
 
+    <!-- ── END OF MAIN CONTENT LAYER ── -->
+    </div>
+
+    <!-- Search Filtering Script Utility -->
+    <script>
+        function filterCodonGridTable() {
+            const queryValue = document.getElementById('codon-search').value.toUpperCase();
+            const tableRows = document.querySelectorAll('#codon-table-body tr');
+            
+            tableRows.forEach(row => {
+                const matchFound = row.getAttribute('data-codon').includes(queryValue) || 
+                                   row.getAttribute('data-shortcut').includes(queryValue) || 
+                                   row.getAttribute('data-fulltitle').includes(queryValue);
+                row.style.display = matchFound ? '' : 'none';
+            });
+        }
+    </script>
+
+    <!-- Your existing JS file linkage -->
+    <script src="script.js"></script>
+</body>
 </html>
