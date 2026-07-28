@@ -25,7 +25,7 @@ body {
     overflow-x: hidden;
 }
 
-/* ── Sidebar Navigation ── */
+/* Sidebar Navigation */
 .sidebar {
     width: 260px;
     background-color: var(--sidebar-bg);
@@ -67,7 +67,7 @@ body {
     color: white;
 }
 
-/* ── Main Layout ── */
+/*  Main Layout  */
 .main-content {
     flex-grow: 1;
     padding: 2.5rem;
@@ -97,7 +97,7 @@ h2, h3 {
     margin-top: 1rem;
 }
 
-/* ── Lab Panel Design ── */
+/* Lab Panel Design  */
 .lab-layout {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -204,7 +204,7 @@ code {
     word-break: break-all;
 }
 
-/* ── Custom Data Tables ── */
+/*  Custom Data Tables  */
 .table-wrapper {
     max-height: 600px;
     overflow-y: auto;
