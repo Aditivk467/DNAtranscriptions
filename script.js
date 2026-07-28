@@ -38,7 +38,7 @@ const BASE_COLORS = {
 // Cache Elements after rendering context initializes
 let dnaTextarea, resultsPanel;
 
-// CodePen Initializer Hook
+// CodePen Initializer 
 function init() {
     dnaTextarea = document.getElementById("dna-textarea");
     resultsPanel = document.getElementById("results-panel");
@@ -58,7 +58,7 @@ if (document.readyState === "loading") {
     init();
 }
 
-// ── Navigation Engine Switcher ──
+// Navigation Engine Switcher 
 function switchPage(targetPageId) {
     document.querySelectorAll('.page').forEach(element => {
         element.classList.remove('active');
@@ -71,11 +71,11 @@ function switchPage(targetPageId) {
     document.getElementById(`btn-${targetPageId}`).classList.add('active');
 }
 
-// ── Data Processing Math Engines ──
+//  Data Processing Math Engines 
 function stripIllegalBases(sequence) {
     return sequence.toUpperCase().replace(/[^ATCG]/g, "");
 }
-
+// Removing invalid characters 
 function executeTranscription(dnaSequence) {
     const complementRules = {"A": "U", "T": "A", "G": "C", "C": "G"};
     return dnaSequence.split("").map(base => complementRules[base] || "?").join("");
@@ -108,7 +108,7 @@ function generateRandomDNA() {
     }
 }
 
-// ── Sequence Colorizer Formatter ──
+// Sequence  Formatter 
 function renderVisualSequenceBlocks(sequence) {
     return sequence.split("").map(base => {
         const colorHex = BASE_COLORS[base] || "#888";
@@ -116,7 +116,7 @@ function renderVisualSequenceBlocks(sequence) {
     }).join("");
 }
 
-// ── Main UI Orchestrator ──
+// Main UI 
 function runGeneticPipeline() {
     if (!dnaTextarea || !resultsPanel) return;
     
@@ -198,7 +198,7 @@ function runGeneticPipeline() {
     resultsPanel.innerHTML = panelStructureHtml;
 }
 
-// ── Codon Matrix Compilation ──
+//  Codon Matrix table 
 function initializeCodonDatabaseTable() {
     const dataTableBody = document.getElementById("codon-table-body");
     if (!dataTableBody) return;
