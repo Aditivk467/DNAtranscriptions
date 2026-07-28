@@ -282,7 +282,7 @@
 </head>
 <body>
 
-    <!-- SIDEBAR NAVIGATION -->
+    <!--Navigation sidebar-->
     <div class="sidebar">
         <div>
             <h3>Navigate</h3>
@@ -292,10 +292,10 @@
         </div>
     </div>
 
-    <!-- MAIN CONTENT LAYER  -->
+    <!-- Main content  -->
     <div class="main-content">
 
-        <!--  LABORATORY PAGE -->
+        <!--  Laboratory page -->
         <div id="page-Laboratory" class="page active">
             <h1>Transcription Laboratory</h1>
             <div class="lab-layout">
@@ -382,22 +382,27 @@ DNA is the permanent storage for genetic information. It exists as a double heli
 The mRNA travels to a ribosome, the cellular factory. The ribosome reads the mRNA sequence three letters at a time.
 
 These three-letter words are called Codons. Each codon corresponds to exactly one amino acid. As the ribosome reads the codons, it strings the amino acids together into a polypeptide chain—a protein.
+         <!-- DNA mutation section -->
+    <div style="line-height: 1.8; display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem;">
+        <div>
+            <h1 style="border-bottom: 1px solid #ddd; padding-bottom: 10px; border-top: 1px solid #ddd; padding-top: 20px;">DNA mutations</h1>
+            
+            <div class="info-banner" style="margin-bottom: 2rem;">
+                A mutation is a change in the base sequence of a DNA molecule which can result in an altered polypeptide.
             </div>
-            <div style="line-height: 1.8; display: flex; flex-direction: column; gap: 1.5rem;">
-                <div>
-                  <br>
-                  <h1 style= "border-bottom:1px sollid #ddd; padding-bottom: 10px; border-top:1px;padding-top: 20px">DNA mutations</h1>
-                    <div class="info-banner" style="margin-bottom: 2rem;"> A mutation is a change in the base sequence of a DNA molecule which can result in an altered polypeptide.  
-                    </div>
-                  <h2 style="font-size: 20px; color:green">Base Substitution</h2>
-                  <p>When a base in the DNA sequence is randomly substituted for a different base. There are three possible types of base substitution mutations:</p><br>
-                  <p><strong>Silent mutations</strong>: where the mutation will not alter the amino acid sequence as the genetic code is degenerate</p> <br>
-                  <p><strong>Missense mutations</strong>: where a single amino acid is altered in the polypeptide chain</p> <br>
-                  <p><strong>Nonsense mutations </strong>: where a premature <span style="color: #FF6961";>STOP</span> codon is created leading to the production of an incomplete polypeptide chain.</P>
-                </div>
-              <div style="line-height: 1.8; display: flex; flex-direction: column; gap: 1.5rem;">
-              </div>
-<!--  CODON DICTIONARY DATA MATRIX PAGE -->
+            
+            <h2 style="font-size: 20px; color: green; margin-bottom: 0.5rem;">Base Substitution</h2>
+            <p>When a base in the DNA sequence is randomly substituted for a different base. There are three possible types of base substitution mutations:</p>
+            <br>
+            
+            <p><strong>Silent mutations:</strong> where the mutation will not alter the amino acid sequence as the genetic code is degenerate.</p>
+            <br>
+            <p><strong>Missense mutations:</strong> where a single amino acid is altered in the polypeptide chain.</p>
+            <br>
+            <p><strong>Nonsense mutations:</strong> where a premature <span style="color: #FF6961; font-weight: bold;">STOP</span> codon is created leading to the production of an incomplete polypeptide chain.</p>
+        </div>
+    </div>
+<!-- Codon dictionary page -->
     <div id="page-CODON_TABLE" class="page">
             <h1>Codon Reference Matrix</h1>
             <input type="text" id="codon-search" class="search-input" placeholder="Search by Codon or Amino Acid name..." oninput="filterCodonGridTable()">
