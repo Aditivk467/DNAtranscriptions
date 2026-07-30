@@ -58,7 +58,7 @@ if (document.readyState === "loading") {
     init();
 }
 
-// Navigation Engine Switcher 
+// Navigation through Engine Switcher 
 function switchPage(targetPageId) {
     document.querySelectorAll('.page').forEach(element => {
         element.classList.remove('active');
@@ -71,7 +71,7 @@ function switchPage(targetPageId) {
     document.getElementById(`btn-${targetPageId}`).classList.add('active');
 }
 
-//  Data Processing Math Engines 
+//  Data Processing w/ Math Engines 
 function stripIllegalBases(sequence) {
     return sequence.toUpperCase().replace(/[^ATCG]/g, "");
 }
@@ -173,6 +173,7 @@ function runGeneticPipeline() {
     if (singleAmino == "Stop"){
         stopCodonFound = true;
     }
+    // crossing out amino acids present after stop codon
      if (singleAmino === "Met") {
         rowStyle = 'style="background-color: rgba(35, 134, 54, 0.15); color: #4ade80;"';
     }
@@ -200,8 +201,10 @@ function runGeneticPipeline() {
                     <tbody>${innerTableRowsHtml}</tbody>
                 </table>
             </div>
-            <code>${translatedAminos.join(" - ")}</code>
-        `;
+            <code>${translatedAminos.includes("Stop")
+                    ?translatedAminos.slice(0,translatedAminos.indexOf("Stop)+1").join('-')
+                    :translatedAminos.join(" - ")}</code>
+                    `;
     } else {
         panelStructureHtml += `<div class="warning-banner">Need at least 3 bases to form a codon.</div>`;
     }
@@ -209,7 +212,7 @@ function runGeneticPipeline() {
     resultsPanel.innerHTML = panelStructureHtml;
 }
 
-//  Codon Matrix table 
+//  Codon reference table 
 function initializeCodonDatabaseTable() {
     const dataTableBody = document.getElementById("codon-table-body");
     if (!dataTableBody) return;
