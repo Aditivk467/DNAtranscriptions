@@ -170,7 +170,7 @@ function runGeneticPipeline() {
     const descriptiveName = AMINO_ACID_FULL_NAMES[singleAmino] || singleAmino;
     
     let rowStyle = "";
-    if (singleAminp == "stop"){
+    if (singleAmino == "Stop"){
         stopCodonFound = true;
     }
      if (singleAmino === "Met") {
