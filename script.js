@@ -203,9 +203,10 @@ function runGeneticPipeline() {
             </div>
             <code>${translatedAminos.includes("Stop")
                     ?translatedAminos.slice(0,translatedAminos.indexOf("Stop)+1").join('-')
-                    :translatedAminos.join(" - ")}</code>`;
+                    :translatedAminos.join(" - ")}</code>
+                    `;
      //cutting out translated amino acids found after stop
-     else {
+    } else {
         panelStructureHtml += `<div class="warning-banner">Need at least 3 bases to form a codon.</div>`;
     }
 
