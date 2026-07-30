@@ -202,7 +202,7 @@ function runGeneticPipeline() {
                 </table>
             </div>
             <code>${translatedAminos.includes("Stop")
-                    ?translatedAminos.slice(0,translatedAminos.indexOf("Stop")+1").join('-')
+                    ?translatedAminos.slice(0,translatedAminos.indexOf("Stop")+1).join('-')
                     :translatedAminos.join(" - ")}</code>
                     `;
      //cutting out translated amino acids found after stop
