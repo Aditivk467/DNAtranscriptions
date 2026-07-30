@@ -160,12 +160,10 @@ function runGeneticPipeline() {
 
         <h3>Polypeptide Chain</h3>
     `;
-
     if (mrnaResult.length >= 3) {
         let innerTableRowsHtml = "";
         let indexCounter = 0;
-        
-        for (let i = 0; i < mrnaResult.length - 2; i += 3) {
+                for (let i = 0; i < mrnaResult.length - 2; i += 3) {
     const activeCodon = mrnaResult.substring(i, i + 3);
     const singleAmino = translatedAminos[indexCounter] || "?";
     const descriptiveName = AMINO_ACID_FULL_NAMES[singleAmino] || singleAmino;
@@ -176,17 +174,16 @@ function runGeneticPipeline() {
     } else if (singleAmino === "Stop") {
         rowStyle = 'style="background-color: rgba(248, 113, 113, 0.15); color: #f87171;"';
     }
-        
-            innerTableRowsHtml += `
-                <tr>
-                    <td style="font-family:monospace; font-weight:bold;">${activeCodon}</td>
-                    <td>${singleAmino}</td>
-                    <td>${descriptiveName}</td>
-                </tr>
-            `;
-            indexCounter++;
-        }
-
+    
+    innerTableRowsHtml += `
+        <tr ${rowStyle}>
+            <td style="font-family:monospace; font-weight:bold;">${activeCodon}</td>
+            <td>${singleAmino}</td>
+            <td>${descriptiveName}</td>
+        </tr>
+    `;
+    indexCounter++;
+}    
         panelStructureHtml += `
             <div class="table-wrapper" style="margin-bottom: 1.5rem;">
                 <table>
