@@ -170,8 +170,10 @@ function runGeneticPipeline() {
     const descriptiveName = AMINO_ACID_FULL_NAMES[singleAmino] || singleAmino;
     
     let rowStyle = "";
-    if (singleAmino == "Stop"){
-        stopCodonFound = true;
+    if (singleAmino == ("Stop"));{
+    }
+    if (stopCodonFound) {
+         rowStyle = 'style="background-color: rgba(239, 68, 68, 0.08); color: #ef4444; opacity: 0.7; text-decoration: line-through;"';
     }
     // crossing out amino acids present after stop codon
      if (singleAmino === "Met") {
@@ -179,9 +181,7 @@ function runGeneticPipeline() {
     }
     else if (singleAmino === "Stop") {
         rowStyle = 'style="background-color: rgba(248, 113, 113, 0.15); color: #f87171;"';
-    }
-    else if (stopCodonFound){
-         rowStyle = 'style="background-color: rgba(239, 68, 68, 0.08); color: #ef4444; opacity: 0.7; text-decoration: line-through;"';
+        stopCodonFound = true;
     }
     innerTableRowsHtml += `
         <tr ${rowStyle}>
