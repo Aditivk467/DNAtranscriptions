@@ -459,6 +459,60 @@ insertion mutation</strong></span>. When a nucleotide consisting of a new base i
                 row.style.display = matchFound ? '' : 'none';
             });
         }
+      <div class="simulator-card">
+    
+    <!-- Top Control Bar Track -->
+    <div class="sim-control-bar">
+        <div class="btn-group">
+            <button class="sim-btn play-btn" id="btn-sim-play" onclick="toggleSimAutoPlay()"> Play</button>
+            <button class="sim-btn step-btn" id="btn-sim-step" onclick="stepVisualSimulation()"> Step</button>
+            <button class="sim-btn reset-btn" id="btn-sim-reset" onclick="resetVisualSimulation()">Reset</button>
+        </div>
+        <div class="speed-control">
+            <span>Speed:</span>
+            <input type="range" id="sim-speed-slider" min="500" max="2000" step="250" value="1000" style="accent-color: #60a5fa;">
+            <span id="speed-label">1.0x</span>
+        </div>
+    </div>
+
+    <!-- Active Stage Arena -->
+    <div class="sim-stage">
+        <div class="phase-header">PHASE ACTIVE: <span id="sim-status-text" class="status-badge">[ Transcription ]</span></div>
+        
+        <div class="animation-arena">
+            <!-- Enzyme Complex Tracker Box -->
+            <div id="visual-enzyme" class="enzyme-pill polymerase-mode">
+                <span id="enzyme-name">RNA Polymerase</span>
+                <span class="movement-arrow">➔</span>
+            </div>
+
+            <!-- Nucleotide Alignment Rows -->
+            <div class="sequence-track-wrapper">
+                <div class="track-row">
+                    <span class="track-label">DNA:</span>
+                    <div id="sim-dna-row" class="bases-flex-container">
+                        <!-- Filled dynamically by JavaScript -->
+                    </div>
+                </div>
+                <div class="track-row">
+                    <span class="track-label">mRNA:</span>
+                    <div id="sim-output-row" class="bases-flex-container">
+                        <!-- Filled dynamically by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Real-Time Output Chain Feed -->
+    <div class="amino-chain-panel">
+        <h4>REAL-TIME AMINO CHAIN:</h4>
+        <div id="sim-polypeptide-chain" class="chain-badge-wrapper">
+            <div class="empty-placeholder">Waiting for Translation...</div>
+        </div>
+    </div>
+</div>
+
     </script>
 
     <script src="script.js"></script>
