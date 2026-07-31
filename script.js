@@ -248,3 +248,233 @@ function filterCodonTable() {
         }
     });
 }
+// Global Simulation State Variables
+let simInterval = null;
+let simIsPlaying = false;
+let simSpeed = 1000; // Time in milliseconds between steps
+
+let simData = {
+    phase: "TRANSCRIPTION", // TRANSCRIPTION, TRANSLATION, FINISHED
+    index: 0,
+    dnaSequence: "",
+    mrnaSequence: "",
+    aminoAcids: []
+};
+
+// Elements Initialization
+function startVisualSimulation() {
+    // 1. Fetch current sequence from your textarea workspace
+    if (!dnaTextarea) dnaTextarea = document.getElementById("dna-textarea");
+    const rawInput = dnaTextarea ? dnaTextarea.value : "TACGGCATACTTATT"; // Fallback sequence
+    const cleanDNA = stripIllegalBases(rawInput);
+
+    if (cleanDNA.length < 3) {
+        alert("Please enter a longer valid DNA sequence (at least 3 bases) to simulate.");
+        return;
+    }
+
+    // 2. Reset and build fresh structure state data
+    simData.phase = "TRANSCRIPTION";
+    simData.index = 0;
+    simData.dnaSequence = cleanDNA;
+    simData.mrnaSequence = "";
+    simData.aminoAcids = [];
+
+    // 3. Setup speed slider listener dynamically
+    const speedSlider = document.getElementById("sim-speed-slider");
+    if (speedSlider) {
+        // Reverse calculation so left is slow, right is fast
+        simSpeed = 2500 - parseInt(speedSlider.value);
+        speedSlider.oninput = function() {
+            simSpeed = 2500 - parseInt(this.value);
+            document.getElementById("speed-label").innerText = (1000 / simSpeed).toFixed(1) + "x";
+            if (simIsPlaying) {
+                // Instantly cycle interval loop to use updated speed tracking
+                clearInterval(simInterval);
+                simInterval = setInterval(stepVisualSimulation, simSpeed);
+            }
+        };
+    }
+
+    // 4. Draw base tracks and toggle UI states
+    renderStaticDNATrack();
+    document.getElementById("sim-output-row").innerHTML = "";
+    document.getElementById("sim-polypeptide-chain").innerHTML = '<div class="empty-placeholder">Waiting for Translation...</div>';
+    
+    // Transform enzyme styles back to Initial Polymerase mode configuration
+    const enzyme = document.getElementById("visual-enzyme");
+    enzyme.className = "enzyme-pill polymerase-mode";
+    document.getElementById("enzyme-name").innerText = "RNA Polymerase";
+    
+    updateSimulationUIFeedback();
+    
+    // Enable core action controls buttons layout
+    document.getElementById("btn-sim-step").disabled = false;
+    document.getElementById("btn-sim-reset").disabled = false;
+}
+
+// Draw the immutable template DNA blocks matching your exact palette styles
+function renderStaticDNATrack() {
+    const track = document.getElementById("sim-dna-row");
+    if (!track) return;
+    track.innerHTML = simData.dnaSequence.split("").map((base, idx) => {
+        const color = BASE_COLORS[base] || "#888";
+        return `<span id="sb-dna-${idx}" class="pop-node" style="background:${color}22; color:${color}; border:1px solid ${color}66; border-radius:6px; padding:4px 8px; font-family:monospace; font-weight:700; width:14px; text-align:center; display:inline-block;">${base}</span>`;
+    }).join("");
+}
+
+// Master execution node determining route paths based on phase conditions
+function stepVisualSimulation() {
+    if (simData.phase === "TRANSCRIPTION") {
+        runTranscriptionLoopStep();
+    } else if (simData.phase === "TRANSLATION") {
+        runTranslationLoopStep();
+    } else {
+        haltSimulationPlayback();
+    }
+}
+
+// 1. Transcription step handler execution block
+function runTranscriptionLoopStep() {
+    const i = simData.index;
+    if (i < simData.dnaSequence.length) {
+        const dnaBase = simData.dnaSequence[i];
+        const complementRules = {"A": "U", "T": "A", "G": "C", "C": "G"};
+        const rnaBase = complementRules[dnaBase] || "?";
+        
+        simData.mrnaSequence += rnaBase;
+
+        // Accent active item on the DNA tracking line row block container
+        const currentDNANode = document.getElementById(`sb-dna-${i}`);
+        if (currentDNANode) {
+            currentDNANode.style.background = BASE_COLORS[dnaBase];
+            currentDNANode.style.color = "#000";
+        }
+
+        // Draw fresh matched mRNA node block dynamically downstream
+        const rnaColor = BASE_COLORS[rnaBase];
+        const mrnaOutput = document.getElementById("sim-output-row");
+        mrnaOutput.innerHTML += `<span id="sb-mrna-${i}" class="pop-node" style="background:${rnaColor}; color:#000; border-radius:6px; padding:4px 8px; font-family:monospace; font-weight:700; width:14px; text-align:center; display:inline-block;">${rnaBase}</span>`;
+
+        simData.index++;
+        animateEnzymePositionShift(simData.index, 38); // Base nodes shift offset multiplier constant
+    }
+
+    // Evaluate Phase limits constraints
+    if (simData.index >= simData.dnaSequence.length) {
+        simData.phase = "TRANSLATION";
+        simData.index = 0;
+        
+        // Pause loop momentarily to emphasize system transformation process to user
+        haltSimulationPlayback();
+        alert("Transcription completed successfully! Transforming active Enzyme component over to Ribosome Translation state.");
+        
+        // Transform visual structure profiles models definitions
+        const enzyme = document.getElementById("visual-enzyme");
+        enzyme.className = "enzyme-pill ribosome-mode";
+        document.getElementById("enzyme-name").innerText = "Ribosome";
+        
+        // Relocate tracking elements target maps coordinates
+        animateEnzymePositionShift(0, 38);
+    }
+    updateSimulationUIFeedback();
+}
+
+// 2. Translation step handler execution block (Advances 3 triplet items at once)
+function runTranslationLoopStep() {
+    const i = simData.index;
+    if (i < simData.mrnaSequence.length - 2) {
+        const triplet = simData.mrnaSequence.substring(i, i + 3);
+        const aminoSign = CODON_TABLE[triplet] || "?";
+        
+        simData.aminoAcids.push(aminoSign);
+
+        // Turn all 3 elements of active functional group bright neon green visually
+        for (let b = 0; b < 3; b++) {
+            const block = document.getElementById(`sb-mrna-${i + b}`);
+            if (block) {
+                block.style.background = "#4ade80";
+                block.style.borderColor = "#4ade80";
+                block.style.color = "#000";
+            }
+        }
+
+        // Generate the horizontal peptide chain node arrays elements
+        const chainWrapper = document.getElementById("sim-polypeptide-chain");
+        if (i === 0) chainWrapper.innerHTML = ""; // Wipe empty text wrapper placeholder block
+
+        let nodeColorStyle = "background: #2563eb; color: #fff; border: 1px solid #3b82f6;";
+        
+        // Evaluate specialized state overrides boundaries colors blocks rules definitions
+        if (aminoSign === "Met") nodeColorStyle = "background: rgba(35,134,54,0.2); color:#4ade80; border:1px solid #4ade80;";
+        if (aminoSign === "Stop") nodeColorStyle = "background: rgba(248,113,113,0.2); color:#f87171; border:1px solid #f87171;";
+
+        // Check if Stop flag has triggered in background sequences arrays
+        const isPastStop = simData.aminoAcids.includes("Stop") && aminoSign !== "Stop";
+        if (isPastStop) {
+            nodeColorStyle = "background: rgba(239,68,68,0.05); color:#ef4444; border:1px dashed #ef4444; opacity:0.4; text-decoration:line-through;";
+        }
+
+        // Draw structural amino chain bubble item node
+        chainWrapper.innerHTML += `<div class="pop-node" style="${nodeColorStyle} padding: 6px 14px; border-radius: 20px; font-weight:bold; font-size:0.85rem; display:inline-block;">${aminoSign}</div>`;
+        
+        // Add dynamic spacer line arrows linkages feeds elements maps
+        if (i + 3 < simData.mrnaSequence.length - 2) {
+            chainWrapper.innerHTML += `<span style="color: rgba(255,255,255,0.2); font-weight:bold; padding: 0 4px;">---➔</span>`;
+        }
+
+        simData.index += 3;
+        animateEnzymePositionShift(simData.index, 38);
+
+        if (aminoSign === "Stop") {
+            simData.phase = "FINISHED";
+            haltSimulationPlayback();
+            alert("Stop codon encountered! Translation terminates. Polypeptide chain released.");
+        }
+    }
+
+    if (simData.index >= simData.mrnaSequence.length - 2 && simData.phase !== "FINISHED") {
+        simData.phase = "FINISHED";
+        haltSimulationPlayback();
+    }
+    updateSimulationUIFeedback();
+}
+
+// Helper block computing positional offsets transformations values metrics properties
+function animateEnzymePositionShift(indexPosition, pixelWidthConstant) {
+    const enzyme = document.getElementById("visual-enzyme");
+    if (!enzyme) return;
+    
+    // Calculates horizontal alignment margin adjustments matching text blocks offsets
+    const leftMarginAnchorOffset = 70; 
+    const computedPosition = leftMarginAnchorOffset + (indexPosition * pixelWidthConstant);
+    enzyme.style.left = `${computedPosition}px`;
+}
+
+// Toggles automatic interval polling playback loops engines configurations properties
+function toggleSimAutoPlay() {
+    const playBtn = document.getElementById("btn-sim-play");
+    
+    if (simData.phase === "FINISHED") {
+        startVisualSimulation(); // Auto-restart if clicked while complete
+    }
+
+    if (!simIsPlaying) {
+        // Edge check: Initialize from absolute scratch if simulation context was completely idle
+        if (simData.phase === "TRANSCRIPTION" && simData.index === 0 && document.getElementById("sim-dna-row").children.length === 0) {
+            startVisualSimulation();
+        }
+        
+        simIsPlaying = true;
+        playBtn.innerText = "⏸ Pause";
+        playBtn.style.background = "#9a3412"; // Switch colors status highlights tracking values
+        simInterval = setInterval(stepVisualSimulation, simSpeed);
+    } else {
+        haltSimulationPlayback();
+    }
+}
+
+function haltSimulationPlayback() {
+    simIsPlaying = false;
+    clearInterval(simInterval);
+}
