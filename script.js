@@ -67,8 +67,8 @@ function switchPage(targetPageId) {
         element.classList.remove('active');
     });
     
-    document.getElementById(`page-${targetPageId}`).classList.add('active');
-    document.getElementById(`btn-${targetPageId}`).classList.add('active');
+    document.getElementById(`page-${targetPageId}`)?.classList.add('active');
+    document.getElementById(`btn-${targetPageId}`)?.classList.add('active');
 }
 
 //  Data Processing w/ Math Engines 
