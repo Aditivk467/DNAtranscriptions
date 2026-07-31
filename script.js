@@ -248,7 +248,7 @@ function filterCodonTable() {
         }
     });
 }
-// Global Simulation State Variables
+//Simulation page 
 let simInterval = null;
 let simIsPlaying = false;
 let simSpeed = 1000;
@@ -259,7 +259,41 @@ let simData = {
     mrnaSequence: "",
     aminoAcids: []
 };
+function showInLineBanner( message , type = "info"){
+    const banner = document.getElementById("sim-in-line-banner")
+    if (!banner) return;
+    banner.classname=`sim-banner${type}`;
+    banner.innertext = message;
+    if (type ==="info"){
+        set timeOut(()=>{ banner.classList.add("banner-hidden");
+                     },4000);
+    }
+}
+function updateSimulationUIFeedback() {
+    const label = document.getElementById("sim-status-text");
+    if (!label) return;
 
+    let activePhase = "TRANSCRIPTION";
+    let activeIndex = 0;
+
+    if (typeof simTimeline !== "undefined" && simTimeline[currentFrameIndex]) {
+        activePhase = simTimeline[currentFrameIndex].phase;
+        activeIndex = simTimeline[currentFrameIndex].pointerIndex;
+    } else if (typeof simData !== "undefined") {
+        activePhase = simData.phase;
+        activeIndex = simData.index;
+    }
+    if (activePhase === "TRANSCRIPTION") {
+        label.innerText = `[ Transcription: Base ${activeIndex} ]`;
+        label.style.color = "#fbbf24";
+    } else if (activePhase === "TRANSLATION") {
+        label.innerText = `[ Translation: Codon Index ${activeIndex} ]`;
+        label.style.color = "#4ade80";
+    } else if (activePhase === "FINISHED") {
+        label.innerText = "[ Simulation Complete ]";
+        label.style.color = "#a855f7";
+    }
+}
 //Initialization
 function startVisualSimulation() {
     // 1. Fetch current sequence from your textarea workspace
@@ -337,35 +371,34 @@ function runTranscriptionLoopStep() {
         
         simData.mrnaSequence += rnaBase;
 
-        // Accent active item on the DNA tracking line row block container
+        
         const currentDNANode = document.getElementById(`sb-dna-${i}`);
         if (currentDNANode) {
             currentDNANode.style.background = BASE_COLORS[dnaBase];
             currentDNANode.style.color = "#000";
         }
 
-        // Draw fresh matched mRNA node block dynamically downstream
+        //  matched mRNA node block dynamically downstream
         const rnaColor = BASE_COLORS[rnaBase];
         const mrnaOutput = document.getElementById("sim-output-row");
         mrnaOutput.innerHTML += `<span id="sb-mrna-${i}" class="pop-node" style="background:${rnaColor}; color:#000; border-radius:6px; padding:4px 8px; font-family:monospace; font-weight:700; width:14px; text-align:center; display:inline-block;">${rnaBase}</span>`;
 
         simData.index++;
-        animateEnzymePositionShift(simData.index, 38); // Base nodes shift offset multiplier constant
+        animateEnzymePositionShift(simData.index, 38); 
     }
 
-    // Evaluate Phase limits constraints
+    //  Phase limits constraints
     if (simData.index >= simData.dnaSequence.length) {
         simData.phase = "TRANSLATION";
         simData.index = 0;
         haltSimulationPlayback();
         showInLineBanner("Transcription completed successfully! Transforming active Enzyme component over to Ribosome Translation state.");
         
-        // Transform visual structure profiles models definitions
+
         const enzyme = document.getElementById("visual-enzyme");
         enzyme.className = "enzyme-pill ribosome-mode";
         document.getElementById("enzyme-name").innerText = "Ribosome";
         
-        // Relocate tracking elements target maps coordinates
         animateEnzymePositionShift(0, 38);
     }
     updateSimulationUIFeedback();
@@ -378,8 +411,7 @@ function runTranslationLoopStep() {
         const aminoSign = CODON_TABLE[triplet] || "?";
         
         simData.aminoAcids.push(aminoSign);
-
-        // Turn all 3 elements of active functional group bright neon green visually
+// change color of codons
         for (let b = 0; b < 3; b++) {
             const block = document.getElementById(`sb-mrna-${i + b}`);
             if (block) {
@@ -390,17 +422,16 @@ function runTranslationLoopStep() {
             }
         }
 
-        // Generate the horizontal peptide chain node arrays elements
         const chainWrapper = document.getElementById("sim-polypeptide-chain");
         if (i === 0) chainWrapper.innerHTML = ""; // Wipe empty text wrapper placeholder block
 
         let nodeColorStyle = "background: #2563eb; color: #fff; border: 1px solid #3b82f6;";
         
-        // Evaluate specialized state overrides boundaries colors blocks rules definitions
+       
         if (aminoSign === "Met") nodeColorStyle = "background: rgba(35,134,54,0.2); color:#BCF96C; border:1px solid #4ade80;";
         if (aminoSign === "Stop") nodeColorStyle = "background: rgba(248,113,113,0.2); color:#f87171; border:1px solid #f87171;";
 
-        // Check if Stop flag has triggered in background sequences arrays
+        // Check if Stop flag has triggered in background 
         const isPastStop = simData.aminoAcids.includes("Stop") && aminoSign !== "Stop";
         if (isPastStop) {
             nodeColorStyle = "background: rgba(239,68,68,0.05); color:#ef4444; border:1px dashed #ef4444; opacity:0.4; text-decoration:line-through;";
@@ -464,43 +495,3 @@ function haltSimulationPlayback() {
     simIsPlaying = false;
     clearInterval(simInterval);
 }
-function showInLineBanner( message , type = "info"){
-    const banner = document.getElementById("sim-in-line-banner")
-    if (!banner) return;
-    banner.classname=`sim-banner${type}`;
-    banner.innertext = message;
-    if (type ==="info"){
-        set timeOut(()=>{ banner.classList.add("banner-hidden");
-                     },4000);
-    }
-}
-function updateSimulationUIFeedback() {
-    const label = document.getElementById("sim-status-text");
-    if (!label) return;
-
-    let activePhase = "TRANSCRIPTION";
-    let activeIndex = 0;
-
-    if (typeof simTimeline !== "undefined" && simTimeline[currentFrameIndex]) {
-        activePhase = simTimeline[currentFrameIndex].phase;
-        activeIndex = simTimeline[currentFrameIndex].pointerIndex;
-    } else if (typeof simData !== "undefined") {
-        activePhase = simData.phase;
-        activeIndex = simData.index;
-    }
-    if (activePhase === "TRANSCRIPTION") {
-        label.innerText = `[ Transcription: Base ${activeIndex} ]`;
-        label.style.color = "#fbbf24";
-    } else if (activePhase === "TRANSLATION") {
-        label.innerText = `[ Translation: Codon Index ${activeIndex} ]`;
-        label.style.color = "#4ade80";
-    } else if (activePhase === "FINISHED") {
-        label.innerText = "[ Simulation Complete ]";
-        label.style.color = "#a855f7";
-    }
-}
-        
-        
-                      
-                      
-    
