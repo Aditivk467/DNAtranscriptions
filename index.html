@@ -442,24 +442,7 @@ insertion mutation</strong></span>. When a nucleotide consisting of a new base i
             </div>
     </div>
       <!--Simulator -->
-
-    <!--  End Of Main Page -->
-    
-
-    <!-- Search Filtering Script Utility -->
-    <script>
-        function filterCodonGridTable() {
-            const queryValue = document.getElementById('codon-search').value.toUpperCase();
-            const tableRows = document.querySelectorAll('#codon-table-body tr');
-            
-            tableRows.forEach(row => {
-                const matchFound = row.getAttribute('data-codon').includes(queryValue) || 
-                                   row.getAttribute('data-shortcut').includes(queryValue) || 
-                                   row.getAttribute('data-fulltitle').includes(queryValue);
-                row.style.display = matchFound ? '' : 'none';
-            });
-        }
-      <div class="simulator-card">
+  <div class="simulator-card">
     
     <!-- Top Control Bar Track -->
     <div class="sim-control-bar">
@@ -475,7 +458,6 @@ insertion mutation</strong></span>. When a nucleotide consisting of a new base i
         </div>
     </div>
 
-    <!-- Active Stage Arena -->
     <div class="sim-stage">
         <div class="phase-header">PHASE ACTIVE: <span id="sim-status-text" class="status-badge">[ Transcription ]</span></div>
         
@@ -518,3 +500,20 @@ insertion mutation</strong></span>. When a nucleotide consisting of a new base i
     <script src="script.js"></script>
 </body>
 </html>
+
+    <!--  End Of Main Page -->
+    
+
+    <!-- Search Filtering Script Utility -->
+    <script>
+        function filterCodonGridTable() {
+            const queryValue = document.getElementById('codon-search').value.toUpperCase();
+            const tableRows = document.querySelectorAll('#codon-table-body tr');
+            
+            tableRows.forEach(row => {
+                const matchFound = row.getAttribute('data-codon').includes(queryValue) || 
+                                   row.getAttribute('data-shortcut').includes(queryValue) || 
+                                   row.getAttribute('data-fulltitle').includes(queryValue);
+                row.style.display = matchFound ? '' : 'none';
+            });
+        }
