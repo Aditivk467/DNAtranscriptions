@@ -264,10 +264,6 @@ function showInLineBanner( message , type = "info"){
     if (!banner) return;
     banner.classname=`sim-banner${type}`;
     banner.innertext = message;
-    if (type ==="info"){
-        set timeOut(()=>{ banner.classList.add("banner-hidden");
-                     },4000);
-    }
 }
 function updateSimulationUIFeedback() {
     const label = document.getElementById("sim-status-text");
