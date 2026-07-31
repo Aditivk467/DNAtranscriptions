@@ -467,3 +467,43 @@ function haltSimulationPlayback() {
     simIsPlaying = false;
     clearInterval(simInterval);
 }
+function showInLineBanner( message , type = "info"){
+    const banner = document.getElementById("sim-in-line-banner")
+    if (!banner) return;
+    banner.classname=`sim-banner${type}`;
+    banner.innertext = message;
+    if (type ==="info"){
+        set timeOut(()=>{ banner.classList.add("banner-hidden");
+                     },4000);
+    }
+}
+function updateSimulationUIFeedback() {
+    const label = document.getElementById("sim-status-text");
+    if (!label) return;
+
+    let activePhase = "TRANSCRIPTION";
+    let activeIndex = 0;
+
+    if (typeof simTimeline !== "undefined" && simTimeline[currentFrameIndex]) {
+        activePhase = simTimeline[currentFrameIndex].phase;
+        activeIndex = simTimeline[currentFrameIndex].pointerIndex;
+    } else if (typeof simData !== "undefined") {
+        activePhase = simData.phase;
+        activeIndex = simData.index;
+    }
+    if (activePhase === "TRANSCRIPTION") {
+        label.innerText = `[ Transcription: Base ${activeIndex} ]`;
+        label.style.color = "#fbbf24";
+    } else if (activePhase === "TRANSLATION") {
+        label.innerText = `[ Translation: Codon Index ${activeIndex} ]`;
+        label.style.color = "#4ade80";
+    } else if (activePhase === "FINISHED") {
+        label.innerText = "[ Simulation Complete ]";
+        label.style.color = "#a855f7";
+    }
+}
+        
+        
+                      
+                      
+    
