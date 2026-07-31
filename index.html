@@ -451,21 +451,13 @@ insertion mutation</strong></span>. When a nucleotide consisting of a new base i
             <button class="sim-btn step-btn" id="btn-sim-step" onclick="stepVisualSimulation()"> Step</button>
             <button class="sim-btn reset-btn" id="btn-sim-reset" onclick="resetVisualSimulation()">Reset</button>
         </div>
-        <div class="speed-control">
-            <span>Speed:</span>
-            <input type="range" id="sim-speed-slider" min="500" max="2000" step="250" value="1000" style="accent-color: #60a5fa;">
-            <span id="speed-label">1.0x</span>
-        </div>
     </div>
-
-    <div class="sim-stage">
-        <div class="phase-header">PHASE ACTIVE: <span id="sim-status-text" class="status-badge">[ Transcription ]</span></div>
-        
         <div class="animation-arena">
-            <!-- Enzyme Complex Tracker Box -->
+            <!-- Enzyme Complex Tracker  -->
             <div id="visual-enzyme" class="enzyme-pill polymerase-mode">
                 <span id="enzyme-name">RNA Polymerase</span>
-                <span class="movement-arrow">➔</span>
+                <span class="movement">●
+</span>
             </div>
 
             <!-- Nucleotide Alignment Rows -->
@@ -473,22 +465,21 @@ insertion mutation</strong></span>. When a nucleotide consisting of a new base i
                 <div class="track-row">
                     <span class="track-label">DNA:</span>
                     <div id="sim-dna-row" class="bases-flex-container">
-                        <!-- Filled dynamically by JavaScript -->
                     </div>
                 </div>
                 <div class="track-row">
                     <span class="track-label">mRNA:</span>
                     <div id="sim-output-row" class="bases-flex-container">
-                        <!-- Filled dynamically by JavaScript -->
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bottom Real-Time Output Chain Feed -->
+    <!-- Output Chain  -->
     <div class="amino-chain-panel">
-        <h4>REAL-TIME AMINO CHAIN:</h4>
+        <h4>Amino Acids formed:</h4>
         <div id="sim-polypeptide-chain" class="chain-badge-wrapper">
             <div class="empty-placeholder">Waiting for Translation...</div>
         </div>
