@@ -429,18 +429,15 @@ function runTranslationLoopStep() {
     updateSimulationUIFeedback();
 }
 
-// Helper block computing positional offsets transformations values metrics properties
 function animateEnzymePositionShift(indexPosition, pixelWidthConstant) {
     const enzyme = document.getElementById("visual-enzyme");
     if (!enzyme) return;
     
-    // Calculates horizontal alignment margin adjustments matching text blocks offsets
     const leftMarginAnchorOffset = 70; 
     const computedPosition = leftMarginAnchorOffset + (indexPosition * pixelWidthConstant);
     enzyme.style.left = `${computedPosition}px`;
 }
 
-// Toggles automatic interval polling playback loops engines configurations properties
 function toggleSimAutoPlay() {
     const playBtn = document.getElementById("btn-sim-play");
     
