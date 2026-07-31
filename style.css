@@ -77,11 +77,11 @@ body {
 }
 
 .page {
-    display: none!important; 
+    display: none !important; 
 }
 
 .page.active {
-    display: block!important;
+    display: block !important;
 }
 
 h1 {
