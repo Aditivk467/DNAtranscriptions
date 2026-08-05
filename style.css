@@ -270,7 +270,7 @@ tr:hover {
     padding: 1rem;
     border-radius: 6px;
 }
-/* Simulator Root Card Frame Layout */
+/* Simulator Layout */
 .simulator-card {
     font-family: 'Courier New', Courier, monospace;
     color: #e2e8f0;
@@ -279,7 +279,7 @@ tr:hover {
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
 }
 
-/* Control Elements formatting */
+/* Control formatting */
 .sim-control-bar {
     display: flex;
     justify-content: space-between;
@@ -301,7 +301,7 @@ tr:hover {
 .sim-btn:hover { background: #312e81; border-color: #6366f1; }
 .speed-control { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
 
-/* Mid Stage Processing Box viewport */
+/* Mid stage box */
 .sim-stage {
     background: #090514;
     border: 1px solid rgba(255,255,255,0.05);
@@ -336,13 +336,13 @@ tr:hover {
 .polymerase-mode { background: rgba(251, 191, 36, 0.15); border: 2px solid #fbbf24; color: #fbbf24; }
 .ribosome-mode { background: rgba(74, 222, 128, 0.15); border: 2px solid #4ade80; color: #4ade80; }
 
-/* Sequence block lists elements structures flex arrangement columns */
+/* Sequence block showing elements structures  */
 .sequence-track-wrapper { display: flex; flex-direction: column; gap: 1.5rem; }
 .track-row { display: flex; align-items: center; gap: 15px; }
 .track-label { width: 50px; font-weight: bold; color: #64748b; font-size: 0.9rem; }
 .bases-flex-container { display: flex; gap: 6px; align-items: center; min-height: 38px; }
 
-/* Bottom output feed structure formatting */
+/* Bottom output structure  */
 .amino-chain-panel {
     background: #16122c;
     border-radius: 8px;
@@ -353,13 +353,12 @@ tr:hover {
 .chain-badge-wrapper { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; min-height: 40px; }
 .empty-placeholder { color: #475569; font-style: italic; font-size: 0.9rem; }
 
-/* Animation properties applied when elements are drawn onto screen layers */
+/* Animation*/
 @keyframes popIn {
     0% { transform: scale(0.4); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
 }
 .pop-node { animation: popIn 0.25s forwards; }
-/* Expand components horizontally across 100% viewport spacing rules */
 .simulator-card.full-page-width {
     max-width: 100% !important;
     width: 96%;
@@ -374,7 +373,6 @@ tr:hover {
     padding: 2rem 1.5rem;
 }
 
-/* Invisible overlay mouse intercept handler slider */
 #sim-cursor-scrubber {
     position: absolute;
     top: 0;
@@ -387,7 +385,7 @@ tr:hover {
     margin: 0;
 }
 
-/* Clean Inline Warning Notification Banners layouts styles */
+/*  Inline warning banner */
 .sim-banner {
     padding: 12px 16px;
     border-radius: 8px;
